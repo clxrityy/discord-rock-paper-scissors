@@ -1,6 +1,4 @@
 # Rock Paper Scissors
-Play rock paper scissors against a discord python bot.
-
 First functionality/game I've added as a process of setting up a multi-functional discord bot.
 
 ### Usage
