@@ -8,13 +8,13 @@ from discord.ext import commands
 import random
 
 
-bot = commands.Bot(command_prefix= '$', description="So far, just rock paper scissors.")
+bot = commands.Bot(command_prefix= '$', description="I'm testing stuff.")
 
-
+  
 
 ## Rock paper scissors
 @bot.command(name="rps", description="Play rock paper scissors against the bot!", pass_context=True)
-@commands.cooldown(1, 30, commands.BucketType.user)
+@commands.cooldown(1, 10, commands.BucketType.user)
 async def rps(ctx):    
     em1 = discord.Embed(title="Rock Paper Scissors", description="What do you pick?", color=discord.Color.blue())
     msg = await ctx.send(embed=em1)
@@ -32,40 +32,68 @@ async def rps(ctx):
 
     random_number = random.randint(0,2)
     computer_pick = options[random_number]
-
-    emtie = discord.Embed(title="Rock Paper Scissors", description="It's a tie!", color=discord.Color.teal())
-    emwin = discord.Embed(title="Rock Paper Scissors", description="You won!", color=discord.Color.green())
-    emlose = discord.Embed(title="Rock Paper Scissors", description="You lost!", color=discord.Color.red())
+    wins = 0
+    losses = 0
+    
 
     if str(reaction.emoji) == rock and computer_pick == options[0]:
       await ctx.send("You picked: " + rock + "\n" + "Computer picked: " + rock)
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emtie = discord.Embed(title="It's a tie!", description=desc, color=discord.Color.teal())
       await ctx.send(embed=emtie)
     elif str(reaction.emoji) == rock and computer_pick == options[1]:
+      losses += 1
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emlose = discord.Embed(title="You lost!", description=desc, color=discord.Color.red())
       await ctx.send("You picked: " + rock + "\n" + "Computer picked: " + paper)
       await ctx.send(embed=emlose)
+      
     elif str(reaction.emoji) == rock and computer_pick == options[2]:
+      wins += 1
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emwin = discord.Embed(title="You win!", description=desc, color=discord.Color.green())
       await ctx.send("You picked: " + rock + "\n" + "Computer picked: " + scissors)
       await ctx.send(embed=emwin)
+      
     elif str(reaction.emoji) == paper and computer_pick == options[0]:
+      wins += 1
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emwin = discord.Embed(title="You win!", description=desc, color=discord.Color.green())
       await ctx.send("You picked: " + paper + "\n" + "Computer picked: " + rock)
       await ctx.send(embed=emwin)
+    
     elif str(reaction.emoji) == paper and computer_pick == options[1]:
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emtie = discord.Embed(title="It's a tie!", description=desc, color=discord.Color.teal())
       await ctx.send("You picked: " + paper + "\n" + "Computer picked: " + paper)
       await ctx.send(embed=emtie)
     elif str(reaction.emoji) == paper and computer_pick == options[2]:
+      losses += 1
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emlose = discord.Embed(title="You lost!", description=desc, color=discord.Color.red())
       await ctx.send("You picked: " + paper + "\n" + "Computer picked: " + scissors)
       await ctx.send(embed=emlose)
+      
     elif str(reaction.emoji) == scissors and computer_pick == options[0]:
+      losses += 1
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emlose = discord.Embed(title="You lost!", description=desc, color=discord.Color.red())
       await ctx.send("You picked: " + scissors + "\n" + "Computer picked: " + rock)
       await ctx.send(embed=emlose)
+      
     elif str(reaction.emoji) == scissors and computer_pick == options[1]:
+      wins += 1
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emwin = discord.Embed(title="You win!", description=desc, color=discord.Color.green())
       await ctx.send("You picked: " + scissors + "\n" + "Computer picked: " + paper)
       await ctx.send(embed=emwin)
+      
     elif str(reaction.emoji) == scissors and computer_pick == options[2]:
+      desc = "Wins: " + str(wins) + "\n" + "Losses: " + str(losses)
+      emtie = discord.Embed(title="It's a tie!", description=desc, color=discord.Color.teal())
       await ctx.send("You picked: " + scissors + "\n" + "Computer picked: " + scissors)
       await ctx.send(embed=emtie)     
-        
-    
+
       
 
 @rps.error
@@ -78,7 +106,7 @@ async def rps_error(ctx, error):
 
 ## CHECK IF BOT IS WORKING $ping
 @bot.command(name="ping", description="Test if the bot is working")
-@commands.cooldown(1, 30, commands.BucketType.user)
+@commands.cooldown(1, 10, commands.BucketType.user)
 async def ping(ctx):
     await ctx.send("Pong")
 @ping.error
